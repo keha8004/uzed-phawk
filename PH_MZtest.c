@@ -1,18 +1,21 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <fcntl.h>
+#include <unistd.h>
+#include <termios.h>
 
 // Test with Pizhawk - send one byte
 // Compiled into a .elf file to be run on the MicroZed
 
-int main(){
+int main() {
 
 
 	// Open UART port
-	int filename = “/dev/ttys0”;
-	int* fd; 	// File descriptor for the port
+	char* filename = "/dev/ttys0";
+	int fd; 	// File descriptor for the port
 	fd = open(filename, O_RDWR | O_NOCTTY | O_NDELAY);
-	if(fd = = -1) {
-		perror(“didn’t open port filename”);
+	if(fd == -1) {
+		perror("didn’t open port filename");
 	}
 	else {
 
@@ -28,7 +31,7 @@ int main(){
 	tcsetattr(fd, TCSANOW, &options);	// Set the new options for the port…
 
 	// Write data to the port
-	n = write(fd, “FF” , 2);
+	ssize_t n = write(fd, "FF" , 2);
 	if(n < 0)
 
 		fputs("write() of 2 bytes failed!\n", stderr);
