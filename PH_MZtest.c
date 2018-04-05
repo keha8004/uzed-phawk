@@ -30,11 +30,15 @@ int main() {
 	options.c_cflag |= (CLOCAL | CREAD); // Enable the receiver and set local mode…
 	tcsetattr(fd, TCSANOW, &options);	// Set the new options for the port…
 
-	// Write data to the port
-	ssize_t n = write(fd, "FF" , 2);
-	if(n < 0)
-
-		fputs("write() of 2 bytes failed!\n", stderr);
+	// Write data to the port at 3Hz
+	while (1) {
+		ssize_t n = write(fd, "FF" , 2);
+		if (n < 0) {
+			fputs("write() of 2 bytes failed!\n", stderr);
+			break;
+		}
+		usleep(333333); // Wait for 1/3 second before next write
+	}
 
 	// Check for data from PixHawk
 	// If there is a flag, send over a warning signal to PixHawk
