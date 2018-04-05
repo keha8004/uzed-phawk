@@ -12,8 +12,7 @@ int main() {
 
 	// Open UART port
 	char* filename = "/dev/ttys0";
-	int fd; 	// File descriptor for the port
-	fd = open(filename, O_RDWR | O_NOCTTY | O_NDELAY);
+	int fd = open(filename, O_RDWR | O_NOCTTY | O_NDELAY); // File descriptor for the port
 	if(fd == -1) {
 		perror("didn’t open port filename");
 	}
